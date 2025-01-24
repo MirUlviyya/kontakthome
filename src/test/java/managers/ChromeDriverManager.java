@@ -13,7 +13,7 @@ public class ChromeDriverManager {
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
 
     public static WebDriver initializeDriverFromChrome() {
-        if (driverThreadLocal.get() == null) {
+        if (driverThreadLocal.get() == null){
             WebDriver driver = createDriverFromChrome();
             driverManageConfig(driver);
             driverThreadLocal.set(driver);
@@ -40,8 +40,12 @@ public class ChromeDriverManager {
 
     private static ChromeOptions createChromeOptions() {
         ChromeOptions options = new ChromeOptions();
+        Map<String, Object> chromePrefs = new HashMap<>();
+        chromePrefs.put("profile.default_content_settings.popups", 0);
+        options.setExperimentalOption("prefs", chromePrefs);
         options.addArguments(
-                "--headless",
+                //"--headless",
+                "--no-sandbox",
                 "--disable-dev-shm-usage",
                 "--disable-notifications",
                 "--remote-allow-origins=*",

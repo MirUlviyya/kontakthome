@@ -1,6 +1,7 @@
 package test;
 
-import managers.WebDriverWaitManager;
+import com.aventstack.extentreports.ExtentTest;
+import managers.ExtentManager;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -17,6 +18,8 @@ import static actions.HoverToElementAction.hoverToElement;
 import static actions.SendKeysAction.sendKeys;
 import static managers.ChromeDriverManager.initializeDriverFromChrome;
 import static managers.ChromeDriverManager.quitDriver;
+import static managers.ExtentManager.flushReports;
+import static managers.ExtentManager.initExtentReports;
 import static managers.WebDriverWaitManager.setDriverForSynchronization;
 import static managers.WebDriverWaitManager.sleepForSeconds;
 
@@ -27,9 +30,12 @@ public class TestCases {
     public HeaderPage headerPage;
     public MainPage mainPage;
     public OfficialOrderPage officialOrderPage;
+    public ExtentTest test;
+
 
     @BeforeTest
     public void setUp() {
+        initExtentReports();
         driver = initializeDriverFromChrome();
         setDriverForSynchronization();
         cartPage = new CartPage(driver);
@@ -41,10 +47,12 @@ public class TestCases {
     @AfterTest
     public void shutdown() {
         quitDriver();
+        flushReports();
     }
 
     @Test
     public void userAddsProductToTheShoppingCartTest() {
+        test = ExtentManager.createTest("userAddsProductToTheShoppingCartTest");
         driver.get("https://kontakt.az/");
         hoverToElement(mainPage.firstDefaultProduct);
         sleepForSeconds(1000);
@@ -57,6 +65,7 @@ public class TestCases {
 
     @Test
     public void userRemovesProductFromTheShoppingCartTest() {
+        test = ExtentManager.createTest("userRemovesProductFromTheShoppingCartTest");
         driver.get("https://kontakt.az/");
         hoverToElement(mainPage.firstDefaultProduct);
         sleepForSeconds(1000);
@@ -71,6 +80,7 @@ public class TestCases {
 
     @Test
     public void userUpdatesTheQuantityOfProductInTheShoppingCart() {
+        test = ExtentManager.createTest("userUpdatesTheQuantityOfProductInTheShoppingCart");
         driver.get("https://kontakt.az/");
         hoverToElement(mainPage.firstDefaultProduct);
         sleepForSeconds(1000);
@@ -85,6 +95,7 @@ public class TestCases {
 
     @Test
     public void userProceedsToCheckout() {
+        test = ExtentManager.createTest("userProceedsToCheckout");
         driver.get("https://kontakt.az/");
         hoverToElement(mainPage.firstDefaultProduct);
         sleepForSeconds(1000);
@@ -96,6 +107,7 @@ public class TestCases {
 
     @Test
     public void userEntersPaymentInformationAndFailsThePurchase() {
+        test = ExtentManager.createTest("userEntersPaymentInformationAndFailsThePurchase");
         driver.get("https://kontakt.az/");
         hoverToElement(mainPage.firstDefaultProduct);
         sleepForSeconds(1000);
